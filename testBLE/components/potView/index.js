@@ -15,22 +15,48 @@ function bytesToString(buffer) {
 }
 
 app.pot = kendo.observable({
+	dataBuffer: "",
 	_consts:{
 		turnOn: "turnOn",
 		setWaterAmmount: "setWaterAmmount",
-		setSoilHumidity: "setSoilHumidity"
+		setSoilHumidity: "setSoilHumidity",
+		getData: "getData"
 	},
 	id: "",
 	waterAmount: "250",
 	soilHumidity: "250", 
 	onShow: function (e) {
 		app.pot.id = e.view.params.id;
+		ble.startNotification(app.pot.id, "ffe0", "ffe1", $.proxy(app.pot.onData), function(){});
 	},
+
+	init: function(){
+	},
+
+	onData: function(buffer) {
+		// Decode the ArrayBuffer into a typed Array based on the data you expect
+		var that = this,
+			data = bytesToString(buffer),
+			endOfMessageIndex = data.indexOf("!");
+		if(endOfMessageIndex >= 0){
+			that.dataBuffer = that.dataBuffer + data.substring(indexStart[endOfMessageIndex, indexEnd])
+			alert(dataBuffer);
+		} else {
+			that.dataBuffer = that.dataBuffer + data;
+		}
+		alert(data);
+	},
+
 	afterShow: function () {},
 	onTurnOn: function () {
 		var that = this;
 		
 		that.sendMessage(that._consts.turnOn);
+	},
+	onGetData: function(){
+		var that = this;
+		
+		that.sendMessage(that._consts.getData);
 	},
 	onWaterChange: function(e){
 		var that = this;
