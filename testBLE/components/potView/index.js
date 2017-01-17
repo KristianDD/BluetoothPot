@@ -12,14 +12,14 @@ function stringToBytes(string) {
 // ASCII only
 function bytesToString(buffer) {
     return String.fromCharCode.apply(null, new Uint8Array(buffer));
-}
+} 
 
 app.pot = kendo.observable({
 	dataBuffer: "",
 	_consts:{
 		turnOn: "turnOn",
-		setWaterAmmount: "setWaterAmmount",
-		setSoilHumidity: "setSoilHumidity",
+		setWaterAmmount: "setting:setWaterAmmount",
+		setSoilHumidity: "setting:setSoilHumidity",
 		getData: "getData"
 	},
 	id: "",
@@ -27,7 +27,7 @@ app.pot = kendo.observable({
 	soilHumidity: "250", 
 	onShow: function (e) {
 		app.pot.id = e.view.params.id;
-		ble.startNotification(app.pot.id, "ffe0", "ffe1", $.proxy(app.pot.onData), function(){});
+		ble.startNotification(app.pot.id, "ffe0", "ffe1", $.proxy(app.pot.onData, app.pot), function(){});
 	},
 
 	init: function(){
@@ -37,14 +37,39 @@ app.pot = kendo.observable({
 		// Decode the ArrayBuffer into a typed Array based on the data you expect
 		var that = this,
 			data = bytesToString(buffer),
-			endOfMessageIndex = data.indexOf("!");
+			endOfMessageIndex = data.indexOf("!"),
+			indexEnd = data.length - 1;
+
 		if(endOfMessageIndex >= 0){
-			that.dataBuffer = that.dataBuffer + data.substring(indexStart[endOfMessageIndex, indexEnd])
-			alert(dataBuffer);
+			that.dataBuffer = that.dataBuffer + data.substring(0, endOfMessageIndex);
+			if(that.dataBuffer.startsWith("data@")){
+				that.parseData(that.dataBuffer);
+			}
+
+			that.dataBuffer = data.substring(endOfMessageIndex, indexEnd);
 		} else {
 			that.dataBuffer = that.dataBuffer + data;
 		}
-		alert(data);
+	},
+
+	parseData: function(data){
+		var entry,
+			dataEntries,
+			dataObjects = [];
+
+		data = data.replace("data@", "");
+		data = data.replace("!", "");
+		dataEntries = data.split(",");
+
+		for(var i = 0, len = dataEntries.length; i < len; i++ ){
+			entry = dataEntries[i].split("#");
+			dataObjects[i] = {
+				soilHumidity: entry[0],
+				time: entry[1]
+			}
+		}
+
+		alert(JSON.stringify(dataObjects));
 	},
 
 	afterShow: function () {},
