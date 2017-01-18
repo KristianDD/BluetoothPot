@@ -8,23 +8,36 @@
 	<div>
 		<h4>Water amount</h4>
 		<input data-role="slider"
-			   data-min="150"
-			   data-max="350"
-			   data-small-step="50"
-			   data-large-step="50"
+			   data-min="2000"
+			   data-max="5000"
+			   data-small-step="200"
+			   data-large-step="200"
 			   data-bind="value: waterAmount,
 						  events: { change: onWaterChange }"
 			   style="width: 200px">
+		<span data-bind="text: waterAmount"></span>
 	</div>
 	<div>
 		<h4>Soil humidity</h4>
 		<input data-role="slider"
-			   data-min="250"
-			   data-max="400"
+			   data-min="300"
+			   data-max="1023"
 			   data-small-step="50"
 			   data-large-step="50"
 			   data-bind="value: soilHumidity,
 						  events: { change: onSoilChange }"
 			   style="width: 200px">
+		<span data-bind="text: soilHumidity"></span>
 	</div>
+	<div>
+ 	<div data-role="chart"
+                 data-legend="{ position: 'bottom' }"
+                 data-series-defaults="{ type: 'line'}"
+                 data-bind="source: chartSource"
+				 data-series="[{ field: 'soilHumidity',categoryField: 'time', name: 'Soil Humidity' }]"
+				 data-category-axis = "{baseUnit: 'fit', labels: {dateFormats: {days: 'M/d'}}}"
+                 style="height: 150px; position: relative" ></div>
+	</div>
+
+	<button data-role="button" data-bind="click: onGetData">Turn on</button>
 </div>

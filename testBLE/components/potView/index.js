@@ -16,18 +16,21 @@ function bytesToString(buffer) {
 
 app.pot = kendo.observable({
 	dataBuffer: "",
+	chartSource: new kendo.data.DataSource(),
 	_consts:{
 		turnOn: "turnOn",
 		setWaterAmmount: "setting:setWaterAmmount",
 		setSoilHumidity: "setting:setSoilHumidity",
-		getData: "getData"
+		getData: "getData",
+		getSettings: "getSettings"
 	},
 	id: "",
-	waterAmount: "250",
-	soilHumidity: "250", 
+	waterAmount: "3000",
+	soilHumidity: "500", 
 	onShow: function (e) {
 		app.pot.id = e.view.params.id;
 		ble.startNotification(app.pot.id, "ffe0", "ffe1", $.proxy(app.pot.onData, app.pot), function(){});
+		window.setTimeout(app.pot.sendMessage.bind(app.pot, [app.pot._consts.getSettings]), 100);
 	},
 
 	init: function(){
@@ -44,6 +47,8 @@ app.pot = kendo.observable({
 			that.dataBuffer = that.dataBuffer + data.substring(0, endOfMessageIndex);
 			if(that.dataBuffer.startsWith("data@")){
 				that.parseData(that.dataBuffer);
+			} else if(that.dataBuffer.startsWith("settings@")){
+				that.parseSettings(that.dataBuffer);
 			}
 
 			that.dataBuffer = data.substring(endOfMessageIndex, indexEnd);
@@ -65,11 +70,21 @@ app.pot = kendo.observable({
 			entry = dataEntries[i].split("#");
 			dataObjects[i] = {
 				soilHumidity: entry[0],
-				time: entry[1]
+				time: new Date(entry[1])
 			}
 		}
+		
+		this.get("chartSource").data(dataObjects);
+	},
 
-		alert(JSON.stringify(dataObjects));
+	parseSettings: function(data){
+		var that = this,
+			settings = [];
+
+		data = data.replace("settings@", "");
+		settings = data.split("#");
+		that.set("waterAmount", parseInt(settings[0]));
+		that.set("soilHumidity", parseInt(settings[1]));
 	},
 
 	afterShow: function () {},
@@ -93,6 +108,7 @@ app.pot = kendo.observable({
 		
 		that.sendMessage(that._consts.setSoilHumidity + "=" + that.get("soilHumidity"));
 	},
+
 	sendMessage: function(message){
 			message = message + "!";
 			ble.write(this.id, "ffe0", "ffe1", stringToBytes(message), function(){
