@@ -26,7 +26,7 @@ app.pot = kendo.observable({
 	},
 	id: "",
 	waterAmount: "3000",
-	soilHumidity: "500", 
+	soilHumidity: "20", 
 	onShow: function (e) {
 		app.pot.id = e.view.params.id;
 		ble.startNotification(app.pot.id, "ffe0", "ffe1", $.proxy(app.pot.onData, app.pot), function(){});
