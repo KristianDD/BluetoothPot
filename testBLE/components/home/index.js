@@ -4,17 +4,23 @@ app.home = kendo.observable({
 		var that = this;
 		
 		app.home.ds.data([]);
-		ble.scan([], 10, function(bleDevice){
-			app.home.ds.add(bleDevice);
-		});
+		app.bluetoothService.disconnectCurrent();
+		app.home.startScan();
+	},
+	startScan: function(){
+		var that = this;
+		that.ds.data([]);
+
+		app.bluetoothService.scan(that.addDevice.bind(that));
+	},
+	addDevice: function(bleDevice){
+		app.home.ds.add(bleDevice);
 	},
 	onClick: function (e) {
-		ble.connect(e.dataItem.id, function(data){
-			app.mobileApp.navigate("components/potView/view.html?id=" + data.id);
-		}, function(){
-			alert("Disconnected");
-			app.mobileApp.navigate("components/home/view.html");
-		});
+		app.bluetoothService.connect(e.dataItem.id);
+	},
+	onHide: function(){
+		app.home.ds.data([]);
 	},
 	afterShow: function () {}
 });
