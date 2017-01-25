@@ -1,10 +1,16 @@
 <div data-role="view" data-title="Test View" data-layout="main" data-model="app.pot" data-show="app.pot.onShow" data-after-show="app.pot.afterShow">
+	<header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
 
+				<button data-role="button" data-align="right" data-bind="click: disconnect">Disconnect</button>
+            </div>
+        </header>
     <!-- START_CUSTOM_CODE_home -->
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_home -->
 	<button data-role="button" data-bind="click: onTurnOn">Turn on</button>
-	<button data-role="button" data-bind="click: onGetData">Turn on</button>
+	<button data-role="button" data-bind="click: onGetData">Refresh Data</button>
 	<div>
 		<h4>Water amount</h4>
 		<input data-role="slider"
@@ -22,8 +28,8 @@
 		<input data-role="slider"
 			   data-min="20"
 			   data-max="70"
-			   data-small-step="50"
-			   data-large-step="50"
+			   data-small-step="5"
+			   data-large-step="5"
 			   data-bind="value: soilHumidity,
 						  events: { change: onSoilChange }"
 			   style="width: 200px">
@@ -35,9 +41,6 @@
                  data-series-defaults="{ type: 'line'}"
                  data-bind="source: chartSource"
 				 data-series="[{ field: 'soilHumidity',categoryField: 'time', name: 'Soil Humidity' }]"
-				 data-category-axis = "{baseUnit: 'fit', labels: {dateFormats: {days: 'M/d'}}}"
-                 style="height: 150px; position: relative" ></div>
+				 data-category-axis = "{maxDateGroups: 5, baseUnit: 'minutes',baseUnitStep: 'auto', labels: {dateFormats: {minutes: 'M/d H:mm'}}}"></div>
 	</div>
-
-	<button data-role="button" data-bind="click: onGetData">Turn on</button>
 </div>
