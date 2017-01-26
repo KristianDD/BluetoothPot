@@ -117,9 +117,8 @@ var BluetoothService = kendo.Observable.extend({
 	sendMessage: function(message){
 			message = message + "!";
 			ble.write(this._currentDevice, "ffe0", "ffe1", stringToBytes(message), function(){
-				alert("send ok");
 			}, function(){
-				alert("send fail");
+				alert("Sending command failed.");
 			});
 	}
 });

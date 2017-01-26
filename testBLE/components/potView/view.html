@@ -10,7 +10,6 @@
     <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
     <!-- END_CUSTOM_CODE_home -->
 	<button data-role="button" data-bind="click: onTurnOn">Turn on</button>
-	<button data-role="button" data-bind="click: onGetData">Refresh Data</button>
 	<div>
 		<h4>Water amount</h4>
 		<input data-role="slider"
@@ -21,7 +20,7 @@
 			   data-bind="value: waterAmount,
 						  events: { change: onWaterChange }"
 			   style="width: 200px">
-		<span data-bind="text: waterAmount"></span>
+		<span data-bind="text: waterAmount"></span><span>ms</span>
 	</div>
 	<div>
 		<h4>Soil humidity</h4>
@@ -33,7 +32,7 @@
 			   data-bind="value: soilHumidity,
 						  events: { change: onSoilChange }"
 			   style="width: 200px">
-		<span data-bind="text: soilHumidity"></span>
+		<span data-bind="text: soilHumidity"></span><span>%</span>
 	</div>
 	<div>
  	<div data-role="chart"

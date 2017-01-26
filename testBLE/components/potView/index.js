@@ -1,7 +1,6 @@
 'use strict';
 
 var PotViewModel = kendo.data.ObservableObject.extend({
-	dataBuffer: "",
 	chartSource: null,
 	_consts:{
 		turnOn: "turnOn",
@@ -40,6 +39,7 @@ var PotViewModel = kendo.data.ObservableObject.extend({
 		} else if(data.dataType === app.bluetoothService.consts.settingsData){
 			that.set("waterAmount", data.waterAmount);
 			that.set("soilHumidity", data.soilHumidity);
+			app.bluetoothService.sendMessage(that._consts.getData);
 		}
 	},
 
@@ -49,16 +49,13 @@ var PotViewModel = kendo.data.ObservableObject.extend({
 		
 		app.bluetoothService.sendMessage(that._consts.turnOn);
 	},
-	onGetData: function(){
-		var that = this;
-		
-		app.bluetoothService.sendMessage(that._consts.getData);
-	},
+
 	onWaterChange: function(e){
 		var that = this;
 		
 		app.bluetoothService.sendMessage(that._consts.setWaterAmmount + "=" + that.get("waterAmount"));
 	},
+
 	onSoilChange: function(e){
 		var that = this;
 		
