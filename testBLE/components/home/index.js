@@ -1,30 +1,30 @@
 var HomeViewModel = kendo.data.ObservableObject.extend({
-	ds: null,
+	devicesDS: null,
 
 	init: function(){
 		var that = this;
 		
 		kendo.data.ObservableObject.fn.init.apply(that, arguments);
-		that.ds = new kendo.data.DataSource();
+		that.devicesDS = new kendo.data.DataSource();
 	},
 
 	onShow: function () {
 		var that = this;
 		
-		app.home.ds.data([]);
+		app.home.devicesDS.data([]);
 		app.bluetoothService.disconnectCurrent();
 		app.home.startScan();
 	},
 
 	startScan: function(){
 		var that = this;
-		that.ds.data([]);
+		that.devicesDS.data([]);
 
 		app.bluetoothService.scan(that.addDevice.bind(that));
 	},
 
 	addDevice: function(bleDevice){
-		app.home.ds.add(bleDevice);
+		app.home.devicesDS.add(bleDevice);
 	},
 
 	onClick: function (e) {
@@ -32,7 +32,7 @@ var HomeViewModel = kendo.data.ObservableObject.extend({
 	},
 
 	onHide: function(){
-		app.home.ds.data([]);
+		app.home.devicesDS.data([]);
 	}
 });
 
