@@ -1,4 +1,4 @@
-<div data-role="view" data-title="Test View" data-layout="main" data-model="app.pot" data-show="app.pot.onShow">
+<div data-role="view" data-title="Pot View" data-layout="main" data-model="app.pot" data-show="app.pot.onShow">
 	<header data-role="header">
 		<div data-role="navbar">
 			<span data-role="view-title"></span>
@@ -37,5 +37,12 @@
 				data-bind="source: chartSource"
 				data-series="[{ field: 'soilHumidity',categoryField: 'time', name: 'Soil Humidity' }]"
 				data-category-axis = "{maxDateGroups: 5, baseUnit: 'minutes',baseUnitStep: 'auto', labels: {dateFormats: {minutes: 'M/d H:mm'}}}"></div>
+	</div>
+
+	<div>
+		<span>MyPlant</span>
+		<span> (</span>
+		<span data-bind="text: id"></span>
+		<span>)</span>
 	</div>
 </div>

@@ -23,7 +23,7 @@ var PotViewModel = kendo.data.ObservableObject.extend({
 	},
 
 	onShow: function (e) {
-		app.pot.id = e.view.params.id;
+		app.pot.set("id", e.view.params.id);
 		app.bluetoothService.startNotification();
 		window.setTimeout(app.bluetoothService.sendMessage.bind(app.bluetoothService, app.pot._consts.getSettings), 100);
 	},
