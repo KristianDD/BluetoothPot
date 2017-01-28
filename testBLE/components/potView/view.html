@@ -1,45 +1,41 @@
-<div data-role="view" data-title="Test View" data-layout="main" data-model="app.pot" data-show="app.pot.onShow" data-after-show="app.pot.afterShow">
+<div data-role="view" data-title="Test View" data-layout="main" data-model="app.pot" data-show="app.pot.onShow">
 	<header data-role="header">
-            <div data-role="navbar">
-                <span data-role="view-title"></span>
-
-				<button data-role="button" data-align="right" data-bind="click: disconnect">Disconnect</button>
-            </div>
-        </header>
-    <!-- START_CUSTOM_CODE_home -->
-    <!-- Add custom code here. For more information about custom code, see http://docs.telerik.com/platform/screenbuilder/troubleshooting/how-to-keep-custom-code-changes -->
-    <!-- END_CUSTOM_CODE_home -->
+		<div data-role="navbar">
+			<span data-role="view-title"></span>
+			<button data-role="button" data-align="right" data-bind="click: disconnect">Disconnect</button>
+		</div>
+	</header>
 	<button data-role="button" data-bind="click: onTurnOn">Turn on</button>
 	<div>
 		<h4>Water amount</h4>
 		<input data-role="slider"
-			   data-min="2000"
-			   data-max="5000"
-			   data-small-step="200"
-			   data-large-step="200"
-			   data-bind="value: waterAmount,
+				data-min="2000"
+				data-max="5000"
+				data-small-step="200"
+				data-large-step="200"
+				data-bind="value: waterAmount,
 						  events: { change: onWaterChange }"
-			   style="width: 200px">
+				style="width: 200px">
 		<span data-bind="text: waterAmount"></span><span>ms</span>
 	</div>
 	<div>
 		<h4>Soil humidity</h4>
 		<input data-role="slider"
-			   data-min="20"
-			   data-max="70"
-			   data-small-step="5"
-			   data-large-step="5"
-			   data-bind="value: soilHumidity,
-						  events: { change: onSoilChange }"
-			   style="width: 200px">
+				data-min="20"
+				data-max="70"
+				data-small-step="5"
+				data-large-step="5"
+				data-bind="value: soilHumidity,
+					events: { change: onSoilChange }"
+				style="width: 200px">
 		<span data-bind="text: soilHumidity"></span><span>%</span>
 	</div>
 	<div>
  	<div data-role="chart"
-                 data-legend="{ position: 'bottom' }"
-                 data-series-defaults="{ type: 'line'}"
-                 data-bind="source: chartSource"
-				 data-series="[{ field: 'soilHumidity',categoryField: 'time', name: 'Soil Humidity' }]"
-				 data-category-axis = "{maxDateGroups: 5, baseUnit: 'minutes',baseUnitStep: 'auto', labels: {dateFormats: {minutes: 'M/d H:mm'}}}"></div>
+				data-legend="{ position: 'bottom' }"
+ 				data-series-defaults="{ type: 'line'}"
+				data-bind="source: chartSource"
+				data-series="[{ field: 'soilHumidity',categoryField: 'time', name: 'Soil Humidity' }]"
+				data-category-axis = "{maxDateGroups: 5, baseUnit: 'minutes',baseUnitStep: 'auto', labels: {dateFormats: {minutes: 'M/d H:mm'}}}"></div>
 	</div>
 </div>
