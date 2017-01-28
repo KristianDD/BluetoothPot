@@ -14,7 +14,6 @@ function bytesToString(buffer) {
 
 var BluetoothService = kendo.Observable.extend({
 	_currentDevice: null,
-	_dataCallback: null,
 	_dataBuffer: "",
 	consts: {
 		dataLog: "dataLog",
@@ -44,7 +43,7 @@ var BluetoothService = kendo.Observable.extend({
 		return def.promise();
 	},
 
-	startNotification: function(dataCallback){
+	startNotification: function(){
 		var that = this;
 
 		ble.startNotification(that._currentDevice, "ffe0", "ffe1", $.proxy(that.onData, that), function(){});
